@@ -1,0 +1,629 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Montserrat', sans-serif;
+}
+
+body {
+    background-color: #c9d6ff;
+    background: linear-gradient(to right, #000000, #c9d6ff);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    box-sizing: border-box;
+    height: 100vh;
+}
+
+.container {
+    background-color: #fff;
+    border-radius: 30px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.35);
+    position: relative;
+    overflow: hidden;
+    width: 70vw;
+    max-width: 100%;
+    min-height: 78vh;
+}
+
+.container p {
+    font-size: 14px;
+    line-height: 20px;
+    letter-spacing: 0.3px;
+    margin: 20px 0;
+}
+
+.container span {
+    font-size: 12px;
+}
+
+.container a {
+    color: #333;
+    font-size: 13px;
+    text-decoration: none;
+    margin: 15px 0 10px;
+}
+
+.container button {
+    background-color: orange;
+    color: #fff;
+    font-size: 12px;
+    padding: 10px 45px;
+    border: 1px solid transparent;
+    border-radius: 8px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    margin-top: 10px;
+    cursor: pointer;
+}
+
+.container button.hidden {
+    background-color: transparent;
+    border-color: #fff;
+}
+
+.container form {
+    background-color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    padding: 0 40px;
+    height: 100%;
+}
+
+.container input {
+    background-color: #eee;
+    border: none;
+    margin: 8px 0;
+    padding: 10px 15px;
+    font-size: 13px;
+    border-radius: 8px;
+    width: 100%;
+    outline: none;
+}
+
+.form-container {
+    position: absolute;
+    top: 0;
+    height: 100%;
+    transition: all 0.6s ease-in-out;
+}
+
+.sign-in {
+    left: 0;
+    width: 50%;
+    z-index: 2;
+}
+
+.container.active .sign-in {
+    transform: translateX(100%);
+}
+
+.sign-up {
+    left: 0;
+    width: 50%;
+    opacity: 0;
+    z-index: 1;
+}
+
+.container.active .sign-up {
+    transform: translateX(100%);
+    opacity: 1;
+    z-index: 5;
+    animation: move 0.6s;
+}
+
+@keyframes move {
+
+    0%,
+    49.99% {
+        opacity: 0;
+        z-index: 1;
+    }
+
+    50%,
+    100% {
+        opacity: 1;
+        z-index: 5;
+    }
+}
+
+.social-icons {
+    margin: 20px 0;
+}
+
+.social-icons a {
+    border: 1px solid #ccc;
+    border-radius: 20%;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 3px;
+    width: 40px;
+    height: 40px;
+}
+
+.toggle-container {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    width: 50%;
+    height: 100%;
+    overflow: hidden;
+    transition: all 0.6s ease-in-out;
+    border-radius: 150px 0 0 100px;
+    z-index: 1000;
+}
+
+.container.active .toggle-container {
+    transform: translateX(-100%);
+    border-radius: 0 150px 100px 0;
+}
+
+.toggle {
+    background-color: orange;
+    height: 100%;
+    background: linear-gradient(to right, #f8a25c, #e1ec3c);
+    color: #fff;
+    position: relative;
+    left: -100%;
+    height: 100%;
+    width: 200%;
+    transform: translateX(0);
+    transition: all 0.6s ease-in-out;
+}
+
+.container.active .toggle {
+    transform: translateX(50%);
+}
+
+.toggle-panel {
+    position: absolute;
+    width: 50%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    padding: 0 30px;
+    text-align: center;
+    top: 0;
+    transform: translateX(0);
+    transition: all 0.6s ease-in-out;
+}
+
+.toggle-left {
+    transform: translateX(-200%);
+}
+
+.container.active .toggle-left {
+    transform: translateX(0);
+}
+
+.toggle-right {
+    right: 0;
+    transform: translateX(0);
+}
+
+.container.active .toggle-right {
+    transform: translateX(200%);
+}
+
+ 
+     li {
+      list-style: none;
+      text-decoration: none;
+      color: white;
+      justify-content: space-between;
+    }
+
+    nav {
+      position: sticky;
+      z-index: 1;
+      box-sizing: border-box;
+      width: 100%;
+      top: 0;
+      left: 0;
+      background-color: black;
+      border-radius: 4px;
+      align-items: center;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      height: 10vh;
+      justify-content: center;
+      min-height: 60px;
+    }
+
+    .logo {
+
+      left: 30px;
+      height: 152px;
+      padding-bottom: 10px;
+    }
+
+    nav {
+
+      justify-content: space-between;
+    }
+
+    nav,
+    nav ul {
+      display: flex;
+      align-items: center;
+      padding-right: 15px;
+      padding-top: 47px;
+      padding-bottom: 20px;
+    }
+
+    .search-icon {
+      position: relative;
+      top: -30px;
+      font-size: 24px;
+    }
+
+    li {
+      padding-bottom: 30px;
+    }
+
+    a {
+      text-decoration: none;
+      color: white;
+    }
+
+    nav .logo {
+      font-size: 22px;
+      font-weight: 500;
+    }
+
+    nav ul li {
+      display: inline-block;
+
+
+    }
+
+    .nav .nav-links {
+      column-gap: 20px;
+      list-style: none;
+    }
+
+    .nav.openSearch .nav-links a {
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .nav .search-icon {
+      color: #fff;
+      font-size: 20px;
+      cursor: pointer;
+      padding-right: 20px;
+      padding-bottom: 30px;
+    }
+
+    li:hover {
+      /* background-color:#0b0a0a98 ; */
+      text-decoration: none;
+      text-decoration-color: none;
+    }
+
+    a:hover {
+      text-decoration: none;
+      text-decoration-color: none;
+      color: yellow;
+      font-weight: 400;
+      font-style: bold;
+    }
+
+    .nav .search-box {
+      position: absolute;
+      right: 300px;
+      height: 45px;
+      max-width: 600px;
+      width: 100%;
+      opacity: 0;
+      pointer-events: none;
+      transition: all 0.2s linear;
+    }
+
+    .nav.openSearch .search-box {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .search-box .search-icon {
+      position: absolute;
+      left: 15px;
+      top: 50%;
+      left: 15px;
+      color: #4a98f7;
+      transform: translateY(-50%);
+    }
+
+    .search-box input {
+      height: 100%;
+      width: 100%;
+      border: none;
+      outline: none;
+      border-radius: 6px;
+      background-color: #fff;
+      padding: 0 15px 0 45px;
+    }
+
+    .nav .navOpenBtn,
+    .nav .navCloseBtn {
+      display: none;
+    }
+
+    /* responsive */
+
+    @media screen and (max-width: 1160px) {
+      .nav {
+        padding: 15px 100px;
+      }
+
+      .nav .search-box {
+        right: 200px;
+        bottom: 10px
+      }
+
+      nav ul li a {
+        padding-bottom: 10px;
+      }
+    }
+
+    @media screen and (max-width: 950px) {
+      .nav {
+        padding: 15px 50px;
+
+      }
+
+      .nav .search-box {
+        right: 100px;
+        max-width: 400px;
+        font-size: 24px;
+      }
+
+      .search-box {
+        font-size: 30px;
+      }
+
+      .logo {
+        padding-bottom: 20px;
+      }
+    }
+
+    @media screen and (max-width: 768px) {
+
+      .nav .navOpenBtn,
+      .nav .navCloseBtn {
+        display: block;
+      }
+
+      a .logo {
+        padding-bottom: 20px;
+      }
+
+      .logo {
+        justify-content: center;
+        padding-bottom: 10px;
+        /* font-size: 9vw; */
+        height: 14vh;
+
+      }
+
+      .nav {
+        padding: 15px 20px;
+      }
+
+      .nav .nav-links {
+        position: fixed;
+        top: 0;
+        left: -100%;
+        height: 100%;
+        max-width: 280px;
+        width: 100%;
+        padding-top: 100px;
+        row-gap: 30px;
+        flex-direction: column;
+        background-color: #11101d;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        transition: all 0.4s ease;
+        z-index: 100;
+      }
+
+      .nav.openNav .nav-links {
+        left: 0;
+      }
+
+      .nav .navOpenBtn {
+        color: #fff;
+        /* font-size: 20px; */
+        cursor: pointer;
+        padding-bottom: 34px;
+        font-size: 5vw;
+      }
+
+      .nav .navCloseBtn {
+        position: absolute;
+        top: 20px;
+        right: 20px;
+        color: #fff;
+        font-size: 20px;
+        cursor: pointer;
+      }
+
+      .nav .search-box {
+        top: calc(100% + 10px);
+        max-width: calc(100% - 20px);
+        right: 50%;
+        transform: translateX(50%);
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        font-size: 6vw;
+      }
+    }
+
+    nav ul li a {
+      color: white;
+      font-size: 17px;
+      border-radius: 3px;
+      padding-bottom: 10px;
+      text-transform: capitalize;
+      bottom: 10px;
+      position: relative;
+      padding-right: 10px;
+      text-decoration: none;
+      font-size: 1.4em;
+     /* padding-top: 27px; */
+
+    }
+
+
+    .openbtn {
+      font-size: 2rem;
+      cursor: pointer;
+      background-color: #111;
+      color: white;
+      border: none;
+    }
+</style>
+    <title>Modern Login Page | AsmrProg</title>
+</head>
+
+<body>
+<nav class="nav" style="position: relative;top: -48px;">
+    <i class="uil uil-bars navOpenBtn"></i>
+    <a href="#"><img class="logo" src="static/logo.png" alt="logo"> </a>
+
+    <ul class="nav-links">
+        <i class="uil uil-times navCloseBtn"></i>
+
+        <li><a href="#"> Home</a></li>
+
+        <li><a href="https://www.freecodecamp.org/news/what-is-steganography-hide-data-inside-data/"> Steganography</a>
+        </li>
+        <li><a href="https://www.fortinet.com/resources/cyberglossary/what-is-cryptography"> Cryptography</a></li>
+        <li><a href="{{url_for('team_info')}}">Join Us</a></li>
+        <li><a href="{{url_for('sign')}}">Sign Up </a></li>
+
+        <span></span>
+
+    </ul>
+    <i class="uil uil-search search-icon" id="searchIcon"></i>
+    <div class="search-box">
+        <i class="uil uil-search search-icon"></i>
+        <input type="text" placeholder="Search here..." />
+    </div>
+    <!-- <a href="{{url_for('home')}}">Home</a>
+    <a href="{{url_for('team_info')}}">About Us</a>
+    <a href="{{url_for('encrypt')}}">Encrypt</a>
+    <a href="#portfolio">Portfolio</a>
+    <a href="{{url_for('team_info')}}">Contact</a>
+    <span></span> -->
+</nav>
+    <div class="container" id="container">
+        <div class="form-container sign-up">
+            <form>
+                <h1>Create Account</h1>
+                <div class="social-icons">
+                    <a href="#" class="icon"><i class="fa-brands fa-google-plus-g"></i></a>
+                    <a href="#" class="icon"><i class="fa-brands fa-facebook-f"></i></a>
+                    <a href="#" class="icon"><i class="fa-brands fa-github"></i></a>
+                    <a href="#" class="icon"><i class="fa-brands fa-linkedin-in"></i></a>
+                </div>
+                <span>or use your email for registeration</span>
+                <input type="text" placeholder="Name">
+                <input type="email" placeholder="Email">
+                <input type="password" placeholder="Password">
+                <button>Sign Up</button>
+            </form>
+        </div>
+        <div class="form-container sign-in">
+            <form>
+                <h1>Sign In</h1>
+                <div class="social-icons">
+                    <a href="#" class="icon"><i class="fa-brands fa-google-plus-g"></i></a>
+                    <a href="#" class="icon"><i class="fa-brands fa-facebook-f"></i></a>
+                    <a href="#" class="icon"><i class="fa-brands fa-github"></i></a>
+                    <a href="#" class="icon"><i class="fa-brands fa-linkedin-in"></i></a>
+                </div>
+                <span>or use your email password</span>
+                <input type="email" placeholder="Email">
+                <input type="password" placeholder="Password">
+                <a href="#">Forget Your Password?</a>
+                <button>Sign In</button>
+            </form>
+        </div>
+        <div class="toggle-container">
+            <div class="toggle">
+                <div class="toggle-panel toggle-left">
+                    <h1>Welcome Back!</h1>
+                    <p>Enter your personal details to use all of site features</p>
+                    <button class="hidden" id="login">Sign In</button>
+                </div>
+                <div class="toggle-panel toggle-right">
+                    <h1>Welcome, Friend!</h1>
+                    <p>Enter your personal details to use all of site features</p>
+                    <button class="hidden" id="register">Sign Up</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+<script>
+    const container = document.getElementById("container");
+        const registerBtn = document.getElementById("register");
+        const loginBtn = document.getElementById("login");
+
+        registerBtn.addEventListener("click", () => {
+            container.classList.add("active");
+        });
+
+        loginBtn.addEventListener("click", () => {
+            container.classList.remove("active");
+        });
+        </script>
+        <!-- Include Bootstrap and jQuery libraries -->
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"
+            integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+            crossorigin="anonymous"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+            integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+            crossorigin="anonymous"></script>
+        <script>
+            const nav = document.querySelector(".nav"),
+                searchIcon = document.querySelector("#searchIcon"),
+                navOpenBtn = document.querySelector(".navOpenBtn"),
+                navCloseBtn = document.querySelector(".navCloseBtn");
+            searchIcon.addEventListener("click", () => {
+                nav.classList.toggle("openSearch");
+                nav.classList.remove("openNav");
+                if (nav.classList.contains("openSearch")) {
+                    return searchIcon.classList.replace("uil-search", "uil-times");
+                }
+                searchIcon.classList.replace("uil-times", "uil-search");
+            });
+            navOpenBtn.addEventListener("click", () => {
+                nav.classList.add("openNav");
+                nav.classList.remove("openSearch");
+                searchIcon.classList.replace("uil-times", "uil-search");
+            });
+            navCloseBtn.addEventListener("click", () => {
+                nav.classList.remove("openNav");
+            });
+        </script>
+
+</script>
+</body>
+
+</html>

@@ -1,0 +1,117 @@
+{% extends "main.html" %}
+
+{% block content %}
+<style>
+  body {
+    font-family: Arial, Helvetica, sans-serif;
+    background-color: #121212;
+    /* Dark background color */
+    color: white;
+  }
+
+  .jumbotron {
+    background-color: transparent;
+  }
+
+  .flip-card-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .flip-card {
+    background-color: transparent;
+    width: 300px;
+    height: 300px;
+    perspective: 1000px;
+    margin: 15px;
+    /* Spacing between flip cards */
+  }
+
+  .flip-card-inner {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    transition: transform 0.6s;
+    transform-style: preserve-3d;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  }
+
+  .flip-card:hover .flip-card-inner {
+    transform: rotateY(180deg);
+  }
+
+  .flip-card-front,
+  .flip-card-back {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+  }
+
+  .flip-card-front {
+    background-color: #444;
+    /* Dark gray color for front of flip card */
+    color: white;
+  }
+
+  .flip-card-back {
+    background-color: #2980b9;
+    color: white;
+    transform: rotateY(180deg);
+  }
+
+  .jumbotron-text {
+    text-align: center;
+  }
+</style>
+
+<div class="jumbotron jumbotron-fluid bg-dark text-white"
+  style="background-image: url('your-dynamic-background.jpg'); background-size: cover;">
+  <div class="container">
+    <h1 class="display-4">
+      <center>Welcome To Our Site <i class="fas fa-home"></i> !!!</center>
+    </h1>
+    <p class="lead">
+      <center>
+        <h2><i class="fas fa-users"></i><span style="color: orange"> Developer Information</span></h2>
+      </center>
+    </p>
+  </div>
+</div>
+
+<br><br><br><br>
+
+<div class="flip-card-container">
+  <div class="flip-card">
+    <div class="flip-card-inner">
+      <div class="flip-card-front">
+        <img src="static/Shubhang_2020001155.jpeg" alt="Not Available" style="width: 100%; height: 100%;">
+      </div>
+      <div class="flip-card-back"
+        style="display: flex; flex-direction: column; justify-content: center; align-items: center;">
+        <h1>Shubhang</h1>
+        <p>BTech CSE Cyber Security & Forensics</p>
+        <p>Sharda University</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- <div class="flip-card">
+    <div class="flip-card-inner">
+      <div class="flip-card-front">
+        <img src="static/UDP.jpg" alt="Not Available" style="width: 100%; height: 100%;">
+      </div>
+       <div class="flip-card-back"
+        style="display: flex; flex-direction: column; justify-content: center; align-items: center;">
+        <br>
+        <h1>Uttkarsha Jindal</h1>
+        <p>BTech CSE Ai & Ml</p>
+        <p>Sharda University</p>
+      </div> 
+    </div>
+  </div> -->
+</div>  
+{% endblock %}

@@ -1,0 +1,841 @@
+{% extends "main.html" %}
+
+{% block content %}
+<script src="{{ url_for('static', filename='js/crypto-js.js') }}"></script>
+<script src="{{ url_for('static', filename='js/FileSaver.js') }}"></script>
+<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+
+<style>
+  /* Custom CSS for dark theme and color contrasting */
+  body {
+    background-color: #222;
+    color: white;
+    font-family: Arial, sans-serif;
+    margin: 0;
+  }
+
+  /* Header styles */
+  .header {
+    text-align: center;
+    padding: 20px;
+    animation: fadeIn 1s;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    font-style: bold;
+    font-size: 2em;
+    text-transform: capitalize;
+    /* Entrance animation */
+  }
+
+  .header h1 {
+    font-size: 2.5rem;
+  }
+
+  .header p {
+    font-size: 1.2rem;
+  }
+  .header b{
+    text-transform: capitalize;
+    color:yellow;
+    position: relative;
+    right:21%;
+  }
+  /* Container styles */
+  .container {
+    max-width: 800px;
+    margin: auto;
+    padding: 20px;
+    background-color: rgba(0, 0, 0, 0.7);
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    animation: slideInLeft 1s;
+    /* Entrance animation */
+  }
+
+  /* Form styles */
+  .form-label {
+    font-size: 1.2rem;
+  }
+
+  .form-control {
+    background-color: #d5d1d1;
+    color: rgba(20, 17, 17, 0.663);
+    border: none;
+    padding: 10px;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+  }
+
+  .form-control:focus {
+    box-shadow: none;
+    font-style: bold;
+  }
+
+  .upload-label {
+    font-size: 1.2rem;
+    margin-top: 20px;
+  }
+
+  /* Button styles */
+  .btn-encrypt {
+    background-color: #4caf50;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-size: 1.2rem;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+
+  .btn-encrypt:hover {
+    background-color: #45ff4e;
+    transform: scale(1.05);
+  }
+
+  /* Hover effect for textareas */
+  .form-control:hover {
+    background-color: #ffffff;
+    box-shadow: none;
+    color: black;
+    font-style: bold;
+  }
+
+  * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+
+  }
+
+  body {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    flex-direction: column;
+    min-height: 100vh;
+  }
+
+  footer {
+    background-color: #000000ff;
+    position: relative;
+    width: 100%;
+    min-height: 350px;
+    padding: 3rem 1rem;
+  }
+
+  .container {
+    max-width: 1140px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+
+
+  }
+
+  .row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .col {
+    min-width: 250px;
+    color: #f2f2f2f2;
+    font-family: poppins;
+    padding: 0 2rem;
+  }
+
+  .col .logo {
+    width: 100px;
+    margin-bottom: 25px;
+  }
+
+  .col h3 {
+    color: #ff014fff;
+    margin-bottom: 20px;
+    position: relative;
+    cursor: pointer;
+  }
+
+  .col h3::after {
+    content: '';
+    height: 3px;
+    width: 0px;
+    background-color: #ff014fff;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    transition: 0.3s ease;
+
+  }
+
+  .col h3:hover::after {
+    width: 30px
+  }
+
+  .col .social a i {
+    color: #ff014fff;
+    margin-top: 2rem;
+    margin-right: 5px;
+    transition: 0.3s ease;
+  }
+
+  .col .social a i:hover {
+    transform: scale(1.5);
+    filter: grayscale(25);
+  }
+
+  .col .links a {
+    display: block;
+    text-decoration: none;
+    color: #f2f2f2;
+    margin-bottom: 5px;
+    position: relative;
+    transition: 0.3s ease;
+  }
+
+  .col .links a::before {
+    content: '';
+    height: 16px;
+    width: 3px;
+    position: absolute;
+    top: 5px;
+    left: -10px;
+    background-color: #ff014fff;
+    transition: 0.5s ease;
+    opacity: 0;
+  }
+
+  .col .links a:hover::before {
+    opacity: 1;
+  }
+
+  .col .links a:hover {
+    transform: translateX(-8px);
+    color: #ff014fff;
+  }
+
+  .col .contact-details {
+    display: inline-flex;
+    justify-content: space-between;
+  }
+
+  .col .contact-details i {
+    margin-right: 15px;
+  }
+
+  .row .form {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 2rem 0;
+  }
+
+  .row .form input {
+    background-color: rgba(57, 70, 66, 0.489);
+    border: 0;
+    outline: none;
+    padding: 14px 20px;
+    border-radius: 6px;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+  }
+
+  .row .form input:hover {
+    background-color: white;
+    color: black;
+    font-weight: bold;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+  }
+
+  .form button {
+    padding: 14px 20px;
+    border: 0;
+    border-radius: 6px;
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+    background-color: #ff014fff;
+  }
+
+  /********** Responsive Design ********/
+  @media(max-width:900px) {
+    .row {
+      flex-direction: column;
+    }
+
+    .col {
+      width: 100%;
+      text-align: left;
+      margin-bottom: 25px;
+    }
+  }
+
+  @media(max-width:768px) {
+    .row {
+      flex-direction: column;
+    }
+
+    .col {
+      width: 100%;
+      text-align: left;
+      margin-bottom: 20px;
+    }
+  }
+
+  @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap");
+
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Poppins", sans-serif, 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+  }
+
+  body {
+    font-family: "Lato", sans-serif;
+    /* background-color: #222; */
+    color: white;
+    margin: 0;
+    background-color: black;
+    font-family: Arial, sans-serif;
+    box-sizing: border-box;
+    /* display: flex; */
+  }
+
+  li {
+    list-style: none;
+    text-decoration: none;
+    color: white;
+    justify-content: space-between;
+  }
+
+  nav {
+    position: sticky;
+    z-index: 1;
+    box-sizing: border-box;
+    width: 100%;
+    top: 0;
+    left: 0;
+    background-color: black;
+    border-radius: 4px;
+    align-items: center;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    height: 10vh;
+    justify-content: center;
+    min-height: 60px;
+  }
+
+  .logo {
+
+    left: 30px;
+    height: 170px;
+    padding-bottom: 10px;
+  }
+
+  nav {
+
+    justify-content: space-between;
+  }
+
+  nav,
+  nav ul {
+    display: flex;
+    align-items: center;
+    padding-right: 15px;
+    padding-bottom: 20px;
+  }
+
+  .search-icon {
+    position: relative;
+    top: -30px;
+    font-size: 24px;
+  }
+
+  li {
+    padding-bottom: 30px;
+  }
+
+  a {
+    text-decoration: none;
+    color: white;
+  }
+
+  nav .logo {
+    font-size: 22px;
+    font-weight: 500;
+  }
+
+  nav ul li {
+    display: inline-block;
+
+
+  }
+
+  .nav .nav-links {
+    column-gap: 20px;
+    list-style: none;
+  }
+
+  .nav.openSearch .nav-links a {
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  .nav .search-icon {
+    color: #fff;
+    font-size: 20px;
+    cursor: pointer;
+    padding-right: 20px;
+    padding-bottom: 30px;
+  }
+
+  li:hover {
+    /* background-color:#0b0a0a98 ; */
+    text-decoration: none;
+    text-decoration-color: none;
+  }
+
+  a:hover {
+    text-decoration: none;
+    text-decoration-color: none;
+    color: yellow;
+    font-weight: 400;
+    font-style: bold;
+  }
+
+  .nav .search-box {
+    position: absolute;
+    right: 300px;
+    height: 45px;
+    max-width: 600px;
+    width: 100%;
+    opacity: 0;
+    pointer-events: none;
+    transition: all 0.2s linear;
+  }
+
+  .nav.openSearch .search-box {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  .search-box .search-icon {
+    position: relative;
+    left: 15px;
+    top: 80%;
+    left: 15px;
+    color: #4a98f7;
+    transform: translateY(-50%);
+  }
+
+  .search-box input {
+    height: 100%;
+    width: 100%;
+    border: none;
+    outline: none;
+    border-radius: 6px;
+    background-color: #fff;
+    padding: 0 15px 0 45px;
+  }
+
+  .nav .navOpenBtn,
+  .nav .navCloseBtn {
+    display: none;
+  }
+
+  /* responsive */
+
+  @media screen and (max-width: 1160px) {
+    .nav {
+      padding: 15px 100px;
+    }
+
+    .nav .search-box {
+      right: 200px;
+      bottom: 10px
+    }
+
+    nav ul li a {
+      padding-bottom: 10px;
+    }
+  }
+
+  @media screen and (max-width: 950px) {
+    .nav {
+      padding: 15px 50px;
+
+    }
+
+    .nav .search-box {
+      right: 100px;
+      max-width: 400px;
+      font-size: 24px;
+    }
+
+    .search-box {
+      font-size: 30px;
+    }
+
+    .logo {
+      padding-bottom: 20px;
+    }
+  }
+
+  @media screen and (max-width: 768px) {
+
+    .nav .navOpenBtn,
+    .nav .navCloseBtn {
+      display: block;
+    }
+
+    a .logo {
+      padding-bottom: 20px;
+    }
+
+    .logo {
+      justify-content: center;
+      padding-bottom: 10px;
+      /* font-size: 9vw; */
+      height: 14vh;
+
+    }
+
+    .nav {
+      padding: 15px 20px;
+    }
+
+    .nav .nav-links {
+      position: fixed;
+      top: 0;
+      left: -100%;
+      height: 100%;
+      max-width: 280px;
+      width: 100%;
+      padding-top: 100px;
+      row-gap: 30px;
+      flex-direction: column;
+      background-color: #11101d;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      transition: all 0.4s ease;
+      z-index: 100;
+    }
+
+    .nav.openNav .nav-links {
+      left: 0;
+    }
+
+    .nav .navOpenBtn {
+      color: #fff;
+      /* font-size: 20px; */
+      cursor: pointer;
+      padding-bottom: 34px;
+      font-size: 5vw;
+    }
+
+    .nav .navCloseBtn {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      color: #fff;
+      font-size: 20px;
+      cursor: pointer;
+    }
+
+    .nav .search-box {
+      top: calc(100% + 10px);
+      max-width: calc(100% - 20px);
+      right: 50%;
+      transform: translateX(50%);
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      font-size: 6vw;
+    }
+  }
+
+  nav ul li a {
+    color: white;
+    font-size: 17px;
+    border-radius: 3px;
+    padding-bottom: 10px;
+    text-transform: capitalize;
+    bottom: 10px;
+    position: relative;
+    padding-right: 10px;
+    text-decoration: none;
+    font-size: 1.4em;
+
+  }
+
+
+
+
+
+  .openbtn {
+    font-size: 2rem;
+    cursor: pointer;
+    background-color: #111;
+    color: white;
+    border: none;
+  }
+
+  .para {
+    position: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: row;
+    margin-top: 50px;
+    margin-bottom: 50px;
+    font-size: 1.2rem;
+    color: white;
+    width: 55vw;
+  }
+
+  h3 {
+    position: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: row;
+    margin-top: 50px;
+    margin-bottom: 50px;
+  }
+
+  @keyframes fadeIn {
+    0% {
+      opacity: 0;
+    }
+
+    100% {
+      opacity: 1;
+    }
+  }
+
+  .openbtn:hover {
+    color: #ff9800;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 0 auto;
+    font-size: 1rem;
+    border: 1px solid #444;
+    animation: fadeIn 2.5s;
+  }
+
+  .email:hover {
+    background-color: white;
+  }
+
+  th,
+  td {
+    text-align: left;
+    padding: 12px;
+  }
+
+  tr:nth-child(even) {
+    background-color: #333;
+  }
+
+  @keyframes fadeIn {
+    0% {
+      opacity: 0;
+    }
+
+    100% {
+      opacity: 1;
+    }
+  }
+
+  .section-heading {
+    text-decoration: none;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    font-size: 30px;
+    margin-top: 50px;
+    margin-bottom: 50px;
+    font-weight: bold;
+    text-align: center;
+    color: rgb(214, 40, 40);
+  }
+
+  .container {
+    margin-top: 30px;
+  }
+
+  .footer-logo {
+    position: relative;
+    left: -28px;
+    top: 81px;
+    width: 17vw;
+  }
+
+  .right-reserve {
+    align-items: center;
+    padding-top: 20px;
+  }
+
+  .card {
+    flex: 1;
+    margin: 10px;
+    padding: 20px;
+    /* border: 1px solid #555; */
+    border-radius: 8px;
+    background-color: black;
+    /* box-shadow: 0 0 10px rgba(255, 255, 255, 0.1); */
+    transition: box-shadow 0.3s ease-in-out, opacity 0.5s ease-in-out;
+    opacity: 0;
+    animation: fadeIn 1s ease-in-out forwards;
+    width: -moz-available;
+  }
+
+  .card:hover {
+    box-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
+  }
+
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+
+    to {
+      opacity: 1;
+    }
+  }
+
+  h2 {
+    color: #17a2b8;
+    font-size: 1.5em;
+    margin-bottom: 15px;
+    text-transform: capitalize;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    position: relative;
+
+
+  }
+
+  .encrypt:hover {
+    background-color: red;
+    color: whitesmoke;
+    font-weight: bolder;
+  }
+
+  .encrypt {
+    justify-content: center;
+  }
+
+  p {
+    color: #ddd;
+    font-size: 1.2em;
+    margin-bottom: 15px;
+  }
+
+  header {
+    padding-top: 20px;
+    justify-content: center;
+    text-align: center;
+  }
+
+  ul {
+    list-style-type: none;
+    padding: 0;
+  }
+
+  li {
+    margin-bottom: 10px;
+  }
+
+  strong {
+    color: #17a2b8;
+  }
+
+  /* Media Queries */
+
+  @media screen and (max-width: 768px) {
+    .card {
+      flex: 0 0 100%;
+    }
+  }
+
+  @media screen and (min-width: 769px) and (max-width: 1200px) {
+    .card {
+      flex: 0 0 48%;
+    }
+  }
+</style>
+
+<div class="header">
+  <h1>Welcome To the Encrypter <i class="fas fa-home"></i> !!!</h1>
+  <p><i class="fas fa-eye-slash"></i> Feel free to encrypt any text you like. Trust us, it will be confidential.</p>
+</div>
+
+<div class="container">
+  <div class="zone">
+    <div id="dropZ">
+      <i class="fa fa-cloud-upload"></i>
+      <div>Drag and drop your file here</div>
+      <span>OR</span>
+      <div class="selectFile">
+        <label for="file">Select file</label>
+        <input type="file" accept="image/*" name="files[]" id="file" onchange="loadFile(event)">
+      </div>
+      <p>File size limit : 10 MB</p>
+    </div>
+  </div>
+  
+  <div class="zone-image">
+    <img id="output" width="400" style="margin-top: 30px; position: relative;border:none;" />
+    <label>
+      <input type="text" id="secret" placeholder="Enter your secret key">
+      <button onclick="encryptToDES()">Encrypt</button>
+    </label>
+  </div>
+  <!-- <h1 class="header"><b>ENCRYPTION</b></h1>
+  <form class="encryption-form" action="{{url_for('decrypt')}}" method="POST" enctype="multipart/form-data">
+    <div class="form-group">
+      <label for="validationTextarea" class="form-label">Enter Your Text</label>
+      <textarea name="PLAIN_TEXT" class="form-control is-invalid" id="validationTextarea"
+        placeholder="Please Type Something..." required autofocus></textarea>
+    </div>
+
+    <label class="upload-label">Upload Cover Image</label>
+    <div class="form-group">
+      <input name="file" type="file" class="form-control" required>
+    </div>
+
+    <div class="form-group" style="margin-top: 25px; margin-bottom: 25px;">
+      <button type="submit" class="btn-encrypt">Encrypt</button>
+    </div>
+  </form> -->
+</div>
+  <script>
+    var data;
+    var loadFile = function (event) {
+      var image = document.getElementById('output');
+      image.src = URL.createObjectURL(event.target.files[0]);
+    };
+    var img = document.getElementById('output');
+    img.crossOrigin = 'Anonymous';
+    img.onload = function () {
+      var canvas = document.createElement('canvas');
+      var ctx = canvas.getContext('2d');
+      canvas.height = this.naturalHeight;
+      canvas.width = this.naturalWidth;
+      ctx.drawImage(this, 0, 0);
+      data = canvas.toDataURL('image/jpeg');
+    };
+    function encryptToDES() {
+      var secretKey = document.getElementById('secret').value;
+      if (secretKey != '') {
+        var fileName = "encrypted_image";
+        var plainText = data;
+        var encryptedText = CryptoJS.TripleDES.encrypt(plainText, secretKey);
+        saveAs(new File([encryptedText], fileName, { type: "text/plain;charset=utf-8" }));
+      }
+      else {
+        alert("Please enter your secret key!");
+      }
+    }
+  </script>
+{% endblock %}

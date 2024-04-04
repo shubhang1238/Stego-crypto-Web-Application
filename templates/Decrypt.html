@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <!-- Add your CSS and JavaScript imports here -->
+  <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+
+<body>
+  {% extends "main.html" %}
+  {% block content %}
+  <div class="container" id="content-container">
+    <br><br><br>
+
+    {% if passed %}
+  <div class="card">
+    <h2>Here is Your Decrypter</h2>
+    <p>Here You can see the decrypted cypher text along with the stego image generated after hiding cypher text in it. You
+      can also encrypt a given cypher text in below.</p>
+    </div>
+
+    <div class="card">
+     
+        <h2 class="display-5">The decrypted <i class="fas fa-sms"></i>text (Cypher text):</h2>
+        <p class="lead">
+          <b>
+            <ul>
+              <h5>
+                <li>First 64 bits: <span class="text-warning">{{ cypher_text[:64] }}</span></li>
+              </h5>
+              {% for i in range(64, (cypher_text | length) - 64, 64) %}
+              <h5>
+                <li>Next 64 bits: <span class="text-warning">{{ cypher_text[i:i+64] }}</span></li>
+              </h5>
+              {% endfor %}
+              <h5>
+                <li>Last 64 bits: <span class="text-warning">{{ cypher_text[-64:] }}</span></li>
+              </h5>
+            </ul>
+          </b>
+        </p>
+
+        <p class="lead">
+          <label for="ghf">
+            <h4>CYPHER TEXT:</h4>
+          </label>
+        <ul>
+          <li>
+            <input name="ghf" type="text" value="{{ cypher_text }}" id="demos">
+            <!-- The button used to copy the text -->
+            <center><button id="demo" onclick="copyToClipboard(document.getElementById('demos').value)">Copy</button>
+            </center>
+          </li>
+        </ul>
+        </p>
+
+        <p class="lead display-5">
+        <h2 class="display-5">The actual Plain Text you entered is:</h2>
+        <center>
+          <h3 style="color: orange"><b><i>{{ plain_text }}</i></b></h3>
+        </center>
+        </p>
+
+        <div>
+          <center><img src="{{ url_for('display_image', filename=filename1) }}" alt="Image Not Applicable/Available"
+              width="300" height="300"></center>
+          <br>
+          <form action="{{ url_for('display_image', filename=filename2) }}">
+            <button type="submit" class="btn btn-outline-primary">See Image</button>
+          </form>
+        </div>
+
+        <p class="lead display-5">
+        <h2 class="display-5">Stego Image:</h2>
+        <center><img src="{{ url_for('display_image', filename=filename2) }}" alt="Image Not Applicable/Available"
+            width="300" height="300"></center>
+        <br>
+        <form action="{{ url_for('decrypted_stego_image') }}" method="POST">
+          <center><button type="submit" class="btn btn-warning">Stego Image Inspection</button></center>
+          <div><input name="KEYS" value="{{ keys }}" type="hidden"></div>
+          <div><input name="FILENAME" value="{{ filename2 }}" type="hidden"></div>
+        </form>
+        <br>
+        <form action="{{ url_for('display_image', filename=filename2) }}">
+          <button type="submit" class="btn btn-outline-success">See Image</button>
+        </form>
+        </p>
+   
+    </div>
+    {% else %}
+    <div class="jumbotron jumbotron-fluid bg-dark text-white">
+      <div class="container">
+        <h1 class="display-4">Your Decrypter !!!</h1>
+        <p class="lead">Here you can see the decrypted cypher text along with its corresponding plain text. You can also
+          encrypt a given cypher text below.</p>
+      </div>
+    </div>
+
+    <div class="jumbotron jumbotron-fluid bg-dark text-white" style="width: 800px; margin: 0 auto;">
+      <div class="container">
+        <h2 class="display-5">The Entered Cypher text <i class="fas fa-sms"></i>:</h2>
+        <p class="lead">
+          <b>
+            <ul>
+              <h5>
+                <li>First 64 bits: <span class="text-warning">{{ cypher_text[:64] }}</span></li>
+              </h5>
+              {% for i in range(64, (cypher_text | length) - 64, 64) %}
+              <h5>
+                <li>Next 64 bits: <span class="text-warning">{{ cypher_text[i:i+64] }}</span></li>
+              </h5>
+              {% endfor %}
+              <h5>
+                <li>Last 64 bits: <span class="text-warning">{{ cypher_text[-64:] }}</span></li>
+              </h5>
+            </ul>
+          </b>
+        </p>
+
+        <p class="lead">
+          <label for="ghf">
+            <h2 style="text-transform: capitalize;font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif; color:aquamarine;">CYPHER TEXT:</h2>
+          </label>
+        <ul>
+          <li>
+            <input name="ghf" type="text" value="{{ cypher_text }}" id="demos">
+            <button id="demo" onclick="copyToClipboard(document.getElementById('demos').value)">Copy</button>
+          </li>
+        </ul>
+        </p>
+
+        <p class="lead display-5">
+        <h2 class="display-5">Corresponding Plain Text is:</h2>
+        <center>
+          <h3 style="color: orange"><b><i>{{ plain_text }}</i></b></h3>
+        </center>
+        </p>
+      </div>
+    </div>
+    {% endif %}
+  </div>
+  {% endblock %}
+</body>
+
+</html>
