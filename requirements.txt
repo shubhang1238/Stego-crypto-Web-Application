@@ -63,7 +63,7 @@ h11==0.14.0
 h5py==3.10.0
 httpcore==1.0.4
 httpx==0.27.0
-idna==3.4
+idna==3.7
 imageio==2.27.0
 imgaug==0.4.0
 imutils==0.5.4
