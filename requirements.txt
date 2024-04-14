@@ -151,7 +151,7 @@ pydantic_core==2.16.2
 pyDes==2.0.1
 PyGetWindow==0.0.9
 Pygments==2.16.1
-pymongo==4.6.1
+pymongo==4.6.3
 PyMsgBox==1.0.9
 PyMySQL==1.1.0
 pyparsing==3.1.1
