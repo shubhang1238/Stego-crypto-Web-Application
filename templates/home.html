@@ -858,13 +858,7 @@ strong {
       </ul>
     </div>
   
-    <div class="card">
-      <h2>Role of Machine Learning</h2>
-      <p>Machine learning acts as an additional layer of defense, particularly using Convolutional Neural Networks (CNNs).
-      </p>
-      <p>The trained CNN detects subtle changes in pixel values, identifying potential data hiding attempts. This adaptive
-        learning mechanism enhances the overall robustness of the system.</p>
-    </div>
+
   
     <div class="card">
       <h2>Datasets</h2>
@@ -908,6 +902,41 @@ strong {
       </ul>
     </div>
   
+    <div class="card">
+      <h2>Triple DES Encryption and Decryption</h2>
+      <p>
+        Triple DES (3DES) is a symmetric encryption scheme that employs block cipher techniques. Symmetric cryptography
+        requires the use of the same key to perform encryption and decryption.
+      </p>
+      <p>
+        The block cipher requires set block sizes, usually 64 bits, like in the case of DES. 3DES, developed as an
+        improvement to Double DES, uses three different keys during the decryption and encryption operations.
+      </p>
+      <p>
+        These keys may be used in three ways: one key, two keys, or three keys. Even with two or three unique keys, 3DES
+        encryption is still powerful and useful for modern applications.
+      </p>
+    </div>
+    <div class="card">
+      <h2>Sender Side Process:</h2>
+      <ul>
+        <li>Input plaintext message and three keys.</li>
+        <li>Encrypt the message using the first key.</li>
+        <li>Decrypt the result using the second key.</li>
+        <li>Encrypt again using the third key.</li>
+        <li>Final encrypted message is produced.</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h2>Receiver Side Process:</h2>
+      <ul>
+        <li>Receive the encrypted message and three keys.</li>
+        <li>Decrypt the message using the third key.</li>
+        <li>Encrypt the result using the second key.</li>
+        <li>Decrypt again using the first key.</li>
+        <li>Final decrypted message is obtained.</li>
+      </ul>
+    </div>
   </div>
   <footer>
     <div class="container">
@@ -915,8 +944,7 @@ strong {
         <div class="col" id="company">
           <img class="footer-logo" src="static/logo.png" alt="logo">
           <p style="font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif; ">
-            Explore the art of concealing information in geometrical images using advanced Stego-Crypto techniques and Machine
-            Learning
+            Explore the art of concealing information in geometrical images using advanced Stego-Crypto techniques 
           </p>
           <div class="social">
             <a href="#"><i class="fab fa-facebook"></i></a>

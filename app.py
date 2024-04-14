@@ -2,6 +2,7 @@ from Decryption import Decryption
 from Encryption import Encryption
 from Preprocessing import Preprocessing
 from steanov_2 import STEANOGRAPHY
+from dotenv import load_dotenv
 
 
 from flask import (

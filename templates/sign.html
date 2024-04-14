@@ -56,23 +56,66 @@ body {
 }
 
 .container button {
-    background-color: orange;
-    color: #fff;
-    font-size: 12px;
-    padding: 10px 45px;
-    border: 1px solid transparent;
-    border-radius: 8px;
-    font-weight: 600;
-    letter-spacing: 0.5px;
-    text-transform: uppercase;
-    margin-top: 10px;
-    cursor: pointer;
+    /* background-color: orange; */
+    position: relative;
+    position: relative;
+  overflow: hidden;
+  height: 3rem;
+  padding: 0 2rem;
+  border-radius: 1.5rem;
+  background: #3d3a4e;
+  background-size: 400%;
+  color: #fff;
+  padding-bottom: 20px;
+  padding-right:66px;
+
+  border: none;
+  cursor: pointer;
+  width:105px;
 }
 
-.container button.hidden {
-    background-color: transparent;
-    border-color: #fff;
+.container button:hover::before {
+  transform: scaleX(1);
+ 
 }
+.container button span{
+  position:absolute;
+  text-align: center;
+  
+ 
+}
+.container button-content {
+  position: relative;
+  z-index: 1;
+}
+.container button span:hover{ font-weight: 800;
+
+  color:#fff}
+
+  .container button span:hover{
+    -webkit-animation: glow 2s ease-in-out infinite alternate;
+    font-weight: 900;
+  }
+
+.container button::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  transform: scaleX(0);
+  transform-origin: 0 50%;
+  width: 100%;
+  height: inherit;
+  border-radius: inherit;
+  background: rgb(180,179,58);
+background: linear-gradient(120deg, rgba(180,179,58,1) 0%, rgba(253,213,29,1) 12%, rgba(198,232,31,1) 53%, rgba(255,164,79,1) 100%, rgba(252,176,69,1) 100%); 
+  transition: all 0.475s;
+}
+
+#signup{
+  position: absolute;
+}
+
 
 .container form {
     background-color: #fff;
@@ -84,6 +127,10 @@ body {
     height: 100%;
 }
 
+.su{
+  position:absolute;
+
+}
 .container input {
     background-color: #eee;
     border: none;
@@ -174,9 +221,11 @@ body {
 }
 
 .toggle {
-    background-color: orange;
+    /* background-color: orange; */
     height: 100%;
-    background: linear-gradient(to right, #f8a25c, #e1ec3c);
+    /* background: linear-gradient(to right, #000e31, #e1ec3c); */
+     background: rgb(180,58,142);
+background: linear-gradient(66deg, rgba(180,58,142,1) 0%, rgba(253,29,29,1) 35%, rgba(252,176,69,1) 100%); 
     color: #fff;
     position: relative;
     left: -100%;
@@ -320,8 +369,9 @@ body {
     a:hover {
       text-decoration: none;
       text-decoration-color: none;
-      color: yellow;
+      color: #deff04;
       font-weight: 400;
+      background-color: #000000;
       font-style: bold;
     }
 
@@ -360,6 +410,9 @@ body {
       padding: 0 15px 0 45px;
     }
 
+nav{
+  margin-top: -21px;
+}
     .nav .navOpenBtn,
     .nav .navCloseBtn {
       display: none;
@@ -531,6 +584,7 @@ body {
     <a href="{{url_for('team_info')}}">Contact</a>
     <span></span> -->
 </nav>
+
     <div class="container" id="container">
         <div class="form-container sign-up">
             <form>
@@ -545,7 +599,8 @@ body {
                 <input type="text" placeholder="Name">
                 <input type="email" placeholder="Email">
                 <input type="password" placeholder="Password">
-                <button>Sign Up</button>
+                <button>
+                  <span class="button-content">Sign Up </span></button>
             </form>
         </div>
         <div class="form-container sign-in">
@@ -561,7 +616,7 @@ body {
                 <input type="email" placeholder="Email">
                 <input type="password" placeholder="Password">
                 <a href="#">Forget Your Password?</a>
-                <button>Sign In</button>
+                <button><span class="button-content">Sign In </span></button>
             </form>
         </div>
         <div class="toggle-container">
@@ -569,12 +624,13 @@ body {
                 <div class="toggle-panel toggle-left">
                     <h1>Welcome Back!</h1>
                     <p>Enter your personal details to use all of site features</p>
-                    <button class="hidden" id="login">Sign In</button>
+                    <button class="hidden" id="login"><span class="button-content">Sign In </span></button>
                 </div>
                 <div class="toggle-panel toggle-right">
                     <h1>Welcome, Friend!</h1>
                     <p>Enter your personal details to use all of site features</p>
-                    <button class="hidden" id="register">Sign Up</button>
+                    <button class="hidden" id="register"><span class="button-content" style="postion:absolute;">
+                      <div class="login">Sign Up</div></span></button>
                 </div>
             </div>
         </div>
